@@ -41,24 +41,24 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")  # Print error message if class doesn't exist
 
     def do_show(self, arg):
-        """Prints the string representation of an instance"""
+        """Prints the string representation of an instance based on its ID"""
+        args = arg.split()
         if not arg:
             print("** class name missing **")
             return  # Print error message if class name is missing
-        args = arg.split()
         try:
-            class_name = args[0]
-            if len(args) < 2:
-                print("** instance id missing **")
-                return  # Print error message if instance ID is missing
-            obj_id = args[1]
-            key = class_name + '.' + obj_id
-            if key not in storage.all():
-                print("** no instance found **")
-                return  # Print error message if instance doesn't exist
-            print(storage.all()[key])  # Print the string representation of the instance
-        except KeyError:
-            print("** class doesn't exist **")  # Print error message if class doesn't exist
+        class_name = args[0]
+        if len(args) < 2:
+            print("** instance id missing **")
+            return  # Print error message if instance ID is missing
+        obj_id = args[1]
+        key = class_name + '.' + obj_id
+        if key not in storage.all():
+            print("** no instance found **")
+            return  # Print error message if instance doesn't exist
+        print(storage.all()[key])  # Print the string representation of the instance
+    except KeyError:
+        print("** class doesn't exist **")  # Print error message if class doesn't exist
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
         print(count)
     except NameError:
         print("** class doesn't exist **")  # Print error message if class doesn't exist
-        
+
 #This block ensures that the code is executed only when the script is run directly
 #(not when imported as a module). It creates an instance of HBNBCommand 
 #and starts the command loop, allowing users to interact with the command interpreter.
