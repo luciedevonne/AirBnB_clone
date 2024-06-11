@@ -64,22 +64,22 @@ class HBNBCommand(cmd.Cmd):
         """Deletes an instance based on the class name and id"""
         if not arg:
             print("** class name missing **")
-            return  # Print error message if class name is missing
+            return
         args = arg.split()
         try:
             class_name = args[0]
             if len(args) < 2:
                 print("** instance id missing **")
-                return  # Print error message if instance ID is missing
+                return
             obj_id = args[1]
             key = class_name + '.' + obj_id
             if key not in storage.all():
                 print("** no instance found **")
-                return  # Print error message if instance doesn't exist
+                return
             del storage.all()[key]  # Delete the instance
             storage.save()  # Save changes to JSON file
         except KeyError:
-            print("** class doesn't exist **")  # Print error message if class doesn't exist
+            print("** class doesn't exist **")
 
     def do_all(self, arg):
         """Prints all string representation of all instances"""
@@ -97,32 +97,34 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")  # Print error message if class doesn't exist
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id"""
+        """Updates an instance based on the class name and id with a dictionary"""
         if not arg:
             print("** class name missing **")
-            return  # Print error message if class name is missing
+            return
         args = arg.split()
         try:
             class_name = args[0]
             if len(args) < 2:
                 print("** instance id missing **")
-                return  # Print error message if instance ID is missing
+                return
             obj_id = args[1]
             key = class_name + '.' + obj_id
             if key not in storage.all():
                 print("** no instance found **")
-                return  # Print error message if instance doesn't exist
+                return
             if len(args) < 3:
-                print("** attribute name missing **")
-                return  # Print error message if attribute name is missing
-            if len(args) < 4:
-                print("** value missing **")
-                return  # Print error message if value is missing
-            attr_name = args[2]
-            attr_value = args[3]
+                print("** dictionary missing **")
+                return
+            # Convert dictionary string representation to a dictionary object
+            dict_str = ' '.join(args[2:])
+            update_dict = eval(dict_str)
             obj = storage.all()[key]
-            setattr(obj, attr_name, attr_value)  # Update attribute value
-            storage.save()  # Save changes to JSON
+            for k, v in update_dict.items():
+                if hasattr(obj, k):
+                    setattr(obj, k, v)  # Update attribute value
+            storage.save()  # Save changes to JSON file
+        except KeyError:
+            print("** class doesn't exist **")
 
     def do_count(self, arg):
     """Retrieves the number of instances of a class"""
