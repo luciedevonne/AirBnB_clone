@@ -1,4 +1,6 @@
-import json  
+import json 
+from models.base_model import BaseModel
+from models.user import User 
 
 class FileStorage:
     """Serializing/deserializing AirBnB objects to/from JSON file."""

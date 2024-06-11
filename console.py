@@ -1,8 +1,15 @@
 #!/usr/bin/python3
 """Command interpreter for AirBnB project"""
 import cmd
-from models.base_model import BaseModel
 from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class"""
@@ -17,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
         return True  # Exit the program when the user inputs 'quit'
 
     def do_EOF(self, arg):
-        """EOF command to exit the program"""
+        """End of File command to exit the program"""
         print()  # Print a newline
         return True  # Exit the program when the user inputs EOF (Ctrl+D)
 
@@ -117,9 +124,7 @@ class HBNBCommand(cmd.Cmd):
             attr_value = args[3]
             obj = storage.all()[key]
             setattr(obj, attr_name, attr_value)  # Update attribute value
-            storage.save()  # Save changes to JSON file
-        except KeyError:
-            print("** class doesn't exist **")  # Print error message if class doesn't exist
+            storage.save()  # Save changes to JSON
 
 #This block ensures that the code is executed only when the script is run directly
 #(not when imported as a module). It creates an instance of HBNBCommand 
