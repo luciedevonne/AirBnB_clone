@@ -124,6 +124,21 @@ class HBNBCommand(cmd.Cmd):
             setattr(obj, attr_name, attr_value)  # Update attribute value
             storage.save()  # Save changes to JSON
 
+    def do_count(self, arg):
+    """Retrieves the number of instances of a class"""
+    if not arg:
+        print("** class name missing **")
+        return  # Print error message if class name is missing
+    try:
+        class_name = eval(arg).__name__
+        if class_name not in storage.classes():
+            print("** class doesn't exist **")
+            return  # Print error message if class doesn't exist
+        count = len(storage.classes()[class_name])
+        print(count)
+    except NameError:
+        print("** class doesn't exist **")  # Print error message if class doesn't exist
+        
 #This block ensures that the code is executed only when the script is run directly
 #(not when imported as a module). It creates an instance of HBNBCommand 
 #and starts the command loop, allowing users to interact with the command interpreter.
